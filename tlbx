@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -z "${X_SCRIPT_DIR}" ]; then
+    X_SCRIPT_DIR="$(dirname "$(realpath "$0")")/scripts"
+fi
+
+export f_out=""
+for f in $X_SCRIPT_DIR/*; do
+    f_m=$(basename -- "$f")
+    f_n="${f_m%.*}"
+    if [ "$f_n" == "$1" ]; then
+        f_out="$f"
+        break
+    fi
+done
+
+if [ ! -z "$f_out" ]; then
+    shift
+    python3 "$f_out" "$@"
+    # echo "python3 $f_out $@"
+fi
